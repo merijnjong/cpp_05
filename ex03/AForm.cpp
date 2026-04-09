@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   AForm.cpp                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/31 16:37:02 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/07/23 12:10:52 by rfinneru      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "AForm.hpp"
 
 AForm::AForm() : _name(""), _isSigned(false), _signGrade(1), _executeGrade(1)

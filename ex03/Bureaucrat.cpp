@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   Bureaucrat.cpp                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/15 13:38:23 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/07/23 12:11:11 by rfinneru      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat(const std::string &name, int signGrade,
