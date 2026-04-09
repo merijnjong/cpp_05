@@ -1,35 +1,27 @@
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -g -pedantic -std=c++11 -fsanitize=address
-# CFLAGS = -Wall -Wextra -Werror -g -pedantic -std=c++11 
-SRCS = $(wildcard *.cpp) 
-OBJS = $(patsubst %.cpp,obj/%.o,$(SRCS))
+NAME		:= form
+CXX			:= c++
+CXXFLAGS	:= -g -Wextra -Wall -Werror -MMD
 
-TARGET = form
+SRCS		:= main.cpp Bureaucrat.cpp Form.cpp
+OBJS		:= $(SRCS:.cpp=.o)
+DEPS		:= $(OBJS:%.o=%.d)
 
-all: $(TARGET)
+all: $(NAME)
 
-$(TARGET): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
-	@echo "$(GREEN)Compiled form!$(DEFAULT)"
+%.o: %.cpp
+	@$(CXX) $(CXXFLAGS) -o $@ -c $< && printf "Compiling: $(notdir $<)\n"
 
-obj/%.o: %.cpp | obj
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS)
+	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS) && printf "Linking: $(NAME)\n"
 
-obj:
-	@mkdir -p obj
+-include $(DEPS)
 
 clean:
-	@$(RM) -r obj/
-	@echo "$(YELLOW)Removed all objects!$(DEFAULT)"
+	@rm -rf $(OBJS) $(DEPS)
 
 fclean: clean
-	@$(RM) $(TARGET)
-	@echo "$(RED)Removed form!$(DEFAULT)"
+	@rm -rf $(NAME)
 
 re: fclean all
 
-#COLORS
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[1;33m
-DEFAULT = \033[0m
+.PHONY: all clean fclean re
