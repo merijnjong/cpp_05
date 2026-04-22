@@ -3,53 +3,56 @@
 
 int main(void)
 {
-	std::cout << PINK "\n-- making a Bureaucrat with the right grade sign a form --" RESET << std::endl;
-    try
-    {
-        Form form = Form("*important document*", 150);
-        Bureaucrat Jack = Bureaucrat("Jack", 24);
-        std::cout << form << std::endl;
-        Jack.signForm(form);
-        std::cout << form << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+	std::cout << "== Signing works with enough rank ==" << std::endl;
+	try
+	{
+		Form accessRequest("AccessRequest", 30);
+		Bureaucrat manager("Manager", 10);
+		std::cout << accessRequest << std::endl;
+		manager.signForm(accessRequest);
+		std::cout << accessRequest << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
-    std::cout << std::endl;
-    
-	std::cout << PINK "\n-- making a Bureaucrat sign a form twice --" RESET << std::endl;
-    try
-    {
-        Form form = Form("*important document*", 125);
-        Bureaucrat john = Bureaucrat("John", 125);
+	std::cout << "\n== Same form signed twice ==" << std::endl;
+	try
+	{
+		Form budgetUpdate("BudgetUpdate", 60);
+		Bureaucrat lead("Lead", 20);
+		lead.signForm(budgetUpdate);
+		lead.signForm(budgetUpdate);
+		std::cout << budgetUpdate << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
-        john.signForm(form);
-        john.signForm(form);
+	std::cout << "\n== Sign rejected when rank too low ==" << std::endl;
+	try
+	{
+		Form confidential("Confidential", 3);
+		Bureaucrat assistant("Assistant", 100);
+		assistant.signForm(confidential);
+		std::cout << confidential << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
-        std::cout << form << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
-    std::cout << std::endl;
-    
-	std::cout << PINK "\n-- making a Bureaucrat with a too low grade sign a form --" RESET << std::endl;
-    try
-    {
-        Form form = Form("*important document*", 4);
-        Bureaucrat john = Bureaucrat("John", 50);
-
-        john.signForm(form);
-
-        std::cout << form << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    return 0;
+	std::cout << "\n== Invalid form creation ==" << std::endl;
+	try
+	{
+		Form invalid("InvalidForm", 0);
+		std::cout << invalid << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	return (0);
 }

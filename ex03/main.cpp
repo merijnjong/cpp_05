@@ -7,76 +7,62 @@
 
 int	main(void)
 {
-	AForm	*form;
-	Intern	Newbie;
-	std::cout << PINK "\n--Making a Bureaucrat called Bob who is going to sign the forms--" RESET << std::endl;
-	Bureaucrat	Bob("Bob", 1, 1);
-	form = NULL;
-	std::cout << PINK "\n--Create all types of forms and a form with incorrect type--" RESET << std::endl;
-	
+	Intern intern;
+	Bureaucrat ceo("CEO", 1, 1);
+	Bureaucrat operatorLow("OperatorLow", 1, 140);
+
+	std::cout << "== Intern creates and CEO executes every valid form ==" << std::endl;
+	const std::string names[3] = {
+		"presidential pardon",
+		"shrubbery creation",
+		"robotomy request"
+	};
+	const std::string targets[3] = {
+		"Trillian",
+		"hq_garden",
+		"Marvin"
+	};
+	for (int i = 0; i < 3; ++i)
 	{
+		AForm *form = NULL;
 		try
 		{
-			std::cout << BLUE "\n--Creating PresidentialPardonForm--" RESET << std::endl;
-			form = Newbie.makeForm("presidential pardon", "Adam");
+			form = intern.makeForm(names[i], targets[i]);
 			std::cout << *form << std::endl;
-			Bob.signForm(*form);
-			std::cout << *form << std::endl;
-			form->execute(Bob);
-			delete form;
+			ceo.signForm(*form);
+			ceo.executeForm(*form);
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
 		}
+		delete form;
 	}
+
+	std::cout << "\n== Unknown form name handled ==" << std::endl;
+	try
 	{
-		try
-		{
-			std::cout << BLUE "\n--Creating ShrubberyCreationForm--" RESET << std::endl;
-			form = Newbie.makeForm("shrubbery creation", "big_tree");
-			std::cout << *form << std::endl;
-			Bob.signForm(*form);
-			std::cout << *form << std::endl;
-			form->execute(Bob);
-			delete form;
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << std::endl;
-		}
+		AForm *unknown = intern.makeForm("weekly report", "nobody");
+		delete unknown;
 	}
+	catch (const std::exception &e)
 	{
-		try
-		{
-			std::cout << BLUE "\n--Creating RobotomyRequestForm--" RESET << std::endl;
-			form = Newbie.makeForm("robotomy request", "Jack");
-			std::cout << *form << std::endl;
-			Bob.signForm(*form);
-			std::cout << *form << std::endl;
-			form->execute(Bob);
-			delete form;
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << std::endl;
-		}
+		std::cerr << e.what() << std::endl;
 	}
+
+	std::cout << "\n== Signed but execution rejected because executor is too low ==" << std::endl;
+	AForm *hardForm = NULL;
+	try
 	{
-		try
-		{
-			std::cout << BLUE "\n--Creating Form that does not exist--" RESET << std::endl;
-			form = Newbie.makeForm("form that doesn't exist", "Wrong");
-			std::cout << *form << std::endl;
-			Bob.signForm(*form);
-			std::cout << *form << std::endl;
-			form->execute(Bob);
-			delete form;
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << std::endl;
-		}
+		hardForm = intern.makeForm("presidential pardon", "Ford");
+		operatorLow.signForm(*hardForm);
+		operatorLow.executeForm(*hardForm);
 	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	delete hardForm;
+
 	return (0);
 }

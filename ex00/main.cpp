@@ -1,48 +1,60 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 15:10:28 by mjong             #+#    #+#             */
-/*   Updated: 2025/11/06 15:10:31 by mjong            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Bureaucrat.hpp"
 
-int main() {
-    try {
-        Bureaucrat bob("Bob", 100);
-        std::cout << bob << std::endl;
+int main()
+{
+	std::cout << "== Valid promotion / demotion ==" << std::endl;
+	try
+	{
+		Bureaucrat analyst("Analyst", 3);
+		std::cout << analyst << std::endl;
+		analyst.incrementGrade();
+		std::cout << "After promotion: " << analyst << std::endl;
+		analyst.decrementGrade();
+		std::cout << "After demotion: " << analyst << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Unexpected failure: " << e.what() << std::endl;
+	}
 
-        bob.incrementGrade();
-        std::cout << "After increment: " << bob << std::endl;
+	std::cout << "\n== Constructor bounds ==" << std::endl;
+	try
+	{
+		Bureaucrat impossibleHigh("ImpossibleHigh", 0);
+		std::cout << impossibleHigh << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Caught high-bound exception: " << e.what() << std::endl;
+	}
+	try
+	{
+		Bureaucrat impossibleLow("ImpossibleLow", 151);
+		std::cout << impossibleLow << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Caught low-bound exception: " << e.what() << std::endl;
+	}
 
-        bob.decrementGrade();
-        std::cout << "After decrement: " << bob << std::endl;
-
-        Bureaucrat high("TooHigh", 0);
-    }
-    catch (std::exception& e) {
-        std::cout << "Exception: " << e.what() << std::endl;
-    }
-
-    try {
-        Bureaucrat low("TooLow", 151);
-    }
-    catch (std::exception& e) {
-        std::cout << "Exception: " << e.what() << std::endl;
-    }
-
-    try {
-        Bureaucrat max("Max", 1);
-        max.incrementGrade();
-    }
-    catch (std::exception& e) {
-        std::cout << "Exception: " << e.what() << std::endl;
-    }
-
-    return 0;
+	std::cout << "\n== Runtime bounds ==" << std::endl;
+	try
+	{
+		Bureaucrat director("Director", 1);
+		director.incrementGrade();
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Increment blocked at top rank: " << e.what() << std::endl;
+	}
+	try
+	{
+		Bureaucrat trainee("Trainee", 150);
+		trainee.decrementGrade();
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Decrement blocked at lowest rank: " << e.what() << std::endl;
+	}
+	return (0);
 }

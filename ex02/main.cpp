@@ -5,48 +5,56 @@
 
 int main(void)
 {
-	std::cout << PINK "\n-- making a Bureaucrat sign a PresidentialPardon --" RESET << std::endl;
-    try
-    {
-        Bureaucrat Jack = Bureaucrat("Jack", 1, 1);
-        PresidentialPardonForm pres = PresidentialPardonForm("The Netherlands");
-    
-        pres.beSigned(Jack);    
-        pres.execute(Jack);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    std::cout << std::endl;
-	std::cout << PINK "\n-- making a Bureaucrat sign a Robotomy Request --" RESET << std::endl;
-    try
-    {
-        Bureaucrat Jack = Bureaucrat("Jack", 1, 4);
-        RobotomyRequestForm pres = RobotomyRequestForm("Henk");
-    
-        pres.beSigned(Jack);    
-        pres.execute(Jack);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    
-    std::cout << std::endl;
-	std::cout << PINK "\n-- making a Bureaucrat sign a Shrubbery Creation --" RESET << std::endl;
-    try
-    {
-        Bureaucrat Jack = Bureaucrat("Jack", 1, 1);
-        ShrubberyCreationForm pres = ShrubberyCreationForm("Mozambique");
-    
-        pres.beSigned(Jack);    
-        pres.execute(Jack);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    
-    return 0;
+	std::cout << "== Successful execution path ==" << std::endl;
+	try
+	{
+		Bureaucrat chief("Chief", 1, 1);
+		ShrubberyCreationForm garden("office_garden");
+		chief.signForm(garden);
+		chief.executeForm(garden);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	std::cout << "\n== Execute blocked when form is unsigned ==" << std::endl;
+	try
+	{
+		Bureaucrat operatorA("OperatorA", 10, 10);
+		RobotomyRequestForm target("Unit42");
+		operatorA.executeForm(target);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	std::cout << "\n== Execute blocked when executor grade is too low ==" << std::endl;
+	try
+	{
+		Bureaucrat signer("Signer", 1, 120);
+		PresidentialPardonForm pardon("Arthur");
+		signer.signForm(pardon);
+		signer.executeForm(pardon);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	std::cout << "\n== Robotomy randomness demo ==" << std::endl;
+	try
+	{
+		Bureaucrat engineer("Engineer", 1, 1);
+		RobotomyRequestForm robotomy("Bender");
+		engineer.signForm(robotomy);
+		engineer.executeForm(robotomy);
+		engineer.executeForm(robotomy);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	return (0);
 }
