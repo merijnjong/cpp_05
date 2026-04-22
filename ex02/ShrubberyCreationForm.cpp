@@ -7,13 +7,11 @@ ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target) : AForm(
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &other)
 {
-	std::cout << "ShrubberyCreationForm Copy constructor called!" << std::endl;
 	*this = other;
 }
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &other)
 {
-	std::cout << "ShrubberyCreationForm Copy assignment operator called!" << std::endl;
 	if (this != &other)
 	{
 		this->_target = other._target;

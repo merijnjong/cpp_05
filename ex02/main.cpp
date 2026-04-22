@@ -3,54 +3,60 @@
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 
+static void section(const std::string &name)
+{
+	std::cout << "\n--- " << name << " ---" << std::endl;
+}
+
 int main(void)
 {
-	std::cout << "== Successful execution path ==" << std::endl;
+	section("TEST 1: sign + execute shrubbery (should succeed)");
 	try
 	{
-		Bureaucrat chief("Chief", 1, 1);
-		ShrubberyCreationForm garden("office_garden");
-		chief.signForm(garden);
-		chief.executeForm(garden);
+		Bureaucrat admin("Admin", 1, 1);
+		ShrubberyCreationForm formA("targetA");
+		admin.signForm(formA);
+		admin.executeForm(formA);
 	}
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
 
-	std::cout << "\n== Execute blocked when form is unsigned ==" << std::endl;
+	section("TEST 2: execute unsigned form (should fail)");
 	try
 	{
-		Bureaucrat operatorA("OperatorA", 10, 10);
-		RobotomyRequestForm target("Unit42");
-		operatorA.executeForm(target);
+		Bureaucrat userA("UserA", 10, 10);
+		RobotomyRequestForm formB("targetB");
+		userA.executeForm(formB);
 	}
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
 
-	std::cout << "\n== Execute blocked when executor grade is too low ==" << std::endl;
+	section("TEST 3: signed form executed by low executor (should fail)");
 	try
 	{
-		Bureaucrat signer("Signer", 1, 120);
-		PresidentialPardonForm pardon("Arthur");
-		signer.signForm(pardon);
-		signer.executeForm(pardon);
+		Bureaucrat signer("Signer", 1, 1);
+		Bureaucrat userB("UserB", 1, 120);
+		PresidentialPardonForm formC("targetC");
+		signer.signForm(formC);
+		userB.executeForm(formC);
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << "Expected failure: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n== Robotomy randomness demo ==" << std::endl;
+	section("TEST 4: robotomy twice (shows random success/failure)");
 	try
 	{
-		Bureaucrat engineer("Engineer", 1, 1);
-		RobotomyRequestForm robotomy("Bender");
-		engineer.signForm(robotomy);
-		engineer.executeForm(robotomy);
-		engineer.executeForm(robotomy);
+		Bureaucrat admin2("Admin2", 1, 1);
+		RobotomyRequestForm formD("targetD");
+		admin2.signForm(formD);
+		admin2.executeForm(formD);
+		admin2.executeForm(formD);
 	}
 	catch (const std::exception &e)
 	{

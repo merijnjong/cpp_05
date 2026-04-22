@@ -7,13 +7,11 @@ RobotomyRequestForm::RobotomyRequestForm(const std::string &target) : AForm("Rob
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &other)
 {
-	std::cout << "RobotomyRequestForm Copy constructor called!" << std::endl;
 	*this = other;
 }
 
 RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &other)
 {
-	std::cout << "RobotomyRequestForm Copy assignment operator called!" << std::endl;
 	if (this != &other)
 	{
 		this->_target = other._target;

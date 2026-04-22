@@ -11,19 +11,16 @@ Form::Form(const std::string &name, int signGrade) : _name(name),
 		throw Form::GradeTooHighException();
 	else if (signGrade > 150)
 		throw Form::GradeTooLowException();
-	std::cout << "Made form " << this->_name << " with sign grade " << this->_signGrade << std::endl;
 }
 
 Form::Form(const Form &other) : _name(other._name),
 	_signGrade(other._signGrade), _executeGrade(other._executeGrade)
 {
-	std::cout << "Copy constructor called!" << std::endl;
 	*this = other;
 }
 
 Form &Form::operator=(const Form &other)
 {
-	std::cout << "Copy assignment operator called!" << std::endl;
 	if (this != &other)
 	{
 		this->_isSigned = other._isSigned;

@@ -16,13 +16,11 @@ AForm::AForm(const std::string &name, int signGrade,
 AForm::AForm(const AForm &other) : _name(other._name),
 	_signGrade(other._signGrade), _executeGrade(other._executeGrade)
 {
-	std::cout << "AForm Copy constructor called!" << std::endl;
 	*this = other;
 }
 
 AForm &AForm::operator=(const AForm &other)
 {
-	std::cout << "AForm Copy assignment operator called!" << std::endl;
 	if (this != &other)
 	{
 		this->_isSigned = other._isSigned;

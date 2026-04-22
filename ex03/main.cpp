@@ -1,68 +1,84 @@
-#include "AForm.hpp"
-#include "Intern.hpp"
 #include "Bureaucrat.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "ShrubberyCreationForm.hpp"
+#include "Intern.hpp"
+
+static void section(const std::string &title)
+{
+	std::cout << "\n--- " << title << " ---" << std::endl;
+}
 
 int	main(void)
 {
 	Intern intern;
-	Bureaucrat ceo("CEO", 1, 1);
-	Bureaucrat operatorLow("OperatorLow", 1, 140);
+	Bureaucrat admin("Admin", 1, 1);
+	Bureaucrat userLowExec("UserLowExec", 1, 140);
+	AForm *form = NULL;
 
-	std::cout << "== Intern creates and CEO executes every valid form ==" << std::endl;
-	const std::string names[3] = {
-		"presidential pardon",
-		"shrubbery creation",
-		"robotomy request"
-	};
-	const std::string targets[3] = {
-		"Trillian",
-		"hq_garden",
-		"Marvin"
-	};
-	for (int i = 0; i < 3; ++i)
-	{
-		AForm *form = NULL;
-		try
-		{
-			form = intern.makeForm(names[i], targets[i]);
-			std::cout << *form << std::endl;
-			ceo.signForm(*form);
-			ceo.executeForm(*form);
-		}
-		catch (const std::exception &e)
-		{
-			std::cerr << e.what() << std::endl;
-		}
-		delete form;
-	}
-
-	std::cout << "\n== Unknown form name handled ==" << std::endl;
+	section("TEST 1: create/sign/execute presidential pardon (should succeed)");
 	try
 	{
-		AForm *unknown = intern.makeForm("weekly report", "nobody");
-		delete unknown;
+		form = intern.makeForm("presidential pardon", "targetA");
+		admin.signForm(*form);
+		admin.executeForm(*form);
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 	}
+	delete form;
+	form = NULL;
 
-	std::cout << "\n== Signed but execution rejected because executor is too low ==" << std::endl;
-	AForm *hardForm = NULL;
+	section("TEST 2: create/sign/execute shrubbery (should succeed)");
 	try
 	{
-		hardForm = intern.makeForm("presidential pardon", "Ford");
-		operatorLow.signForm(*hardForm);
-		operatorLow.executeForm(*hardForm);
+		form = intern.makeForm("shrubbery creation", "targetB");
+		admin.signForm(*form);
+		admin.executeForm(*form);
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 	}
-	delete hardForm;
+	delete form;
+	form = NULL;
+
+	section("TEST 3: create/sign/execute robotomy (should succeed)");
+	try
+	{
+		form = intern.makeForm("robotomy request", "targetC");
+		admin.signForm(*form);
+		admin.executeForm(*form);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+	delete form;
+	form = NULL;
+
+	section("TEST 4: unknown form name (should fail)");
+	try
+	{
+		form = intern.makeForm("unknown form", "targetX");
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Expected error: " << e.what() << std::endl;
+	}
+	delete form;
+	form = NULL;
+
+	section("TEST 5: low executor executes signed form (should fail)");
+	try
+	{
+		form = intern.makeForm("presidential pardon", "targetD");
+		userLowExec.signForm(*form);
+		userLowExec.executeForm(*form);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Expected error: " << e.what() << std::endl;
+	}
+	delete form;
 
 	return (0);
 }

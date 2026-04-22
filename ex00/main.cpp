@@ -1,56 +1,65 @@
 #include "Bureaucrat.hpp"
 
+static void section(const std::string &name)
+{
+	std::cout << "\n--- " << name << " ---" << std::endl;
+}
+
 int main()
 {
-	std::cout << "== Valid promotion / demotion ==" << std::endl;
+	section("TEST 1: valid construction + increment/decrement (should succeed)");
 	try
 	{
-		Bureaucrat analyst("Analyst", 3);
-		std::cout << analyst << std::endl;
-		analyst.incrementGrade();
-		std::cout << "After promotion: " << analyst << std::endl;
-		analyst.decrementGrade();
-		std::cout << "After demotion: " << analyst << std::endl;
+		Bureaucrat userA("UserA", 3);
+		std::cout << userA << std::endl;
+		userA.incrementGrade();
+		std::cout << "After increment: " << userA << std::endl;
+		userA.decrementGrade();
+		std::cout << "After decrement: " << userA << std::endl;
 	}
 	catch (const std::exception &e)
 	{
 		std::cout << "Unexpected failure: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n== Constructor bounds ==" << std::endl;
+	section("TEST 2: constructor grade 0 (should fail: too high)");
 	try
 	{
-		Bureaucrat impossibleHigh("ImpossibleHigh", 0);
-		std::cout << impossibleHigh << std::endl;
+		Bureaucrat userHigh("UserHigh", 0);
+		std::cout << userHigh << std::endl;
 	}
 	catch (const std::exception &e)
 	{
-		std::cout << "Caught high-bound exception: " << e.what() << std::endl;
-	}
-	try
-	{
-		Bureaucrat impossibleLow("ImpossibleLow", 151);
-		std::cout << impossibleLow << std::endl;
-	}
-	catch (const std::exception &e)
-	{
-		std::cout << "Caught low-bound exception: " << e.what() << std::endl;
+		std::cout << "Expected failure: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n== Runtime bounds ==" << std::endl;
+	section("TEST 3: constructor grade 151 (should fail: too low)");
 	try
 	{
-		Bureaucrat director("Director", 1);
-		director.incrementGrade();
+		Bureaucrat userLow("UserLow", 151);
+		std::cout << userLow << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Expected failure: " << e.what() << std::endl;
+	}
+
+	section("TEST 4: increment at grade 1 (should fail)");
+	try
+	{
+		Bureaucrat topUser("TopUser", 1);
+		topUser.incrementGrade();
 	}
 	catch (const std::exception &e)
 	{
 		std::cout << "Increment blocked at top rank: " << e.what() << std::endl;
 	}
+
+	section("TEST 5: decrement at grade 150 (should fail)");
 	try
 	{
-		Bureaucrat trainee("Trainee", 150);
-		trainee.decrementGrade();
+		Bureaucrat lowUser("LowUser", 150);
+		lowUser.decrementGrade();
 	}
 	catch (const std::exception &e)
 	{

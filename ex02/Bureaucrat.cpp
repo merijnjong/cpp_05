@@ -8,18 +8,15 @@ Bureaucrat::Bureaucrat(const std::string &name, int signGrade,
 		throw Bureaucrat::GradeTooHighException();
 	else if (signGrade > 150 || executeGrade > 150)
 		throw Bureaucrat::GradeTooLowException();
-	std::cout << "Made bureaucrat " << getName() << " with sign Grade " << getSignGrade() << " and execute Grade " << getExecuteGrade() << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &other) : _name(other._name)
 {
-	std::cout << "Bureaucrat Copy constructor called!" << std::endl;
 	*this = other;
 }
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 {
-	std::cout << "Bureaucrat Copy assignment operator called!" << std::endl;
 	if (this != &other)
 	{
 		this->_signGrade = other._signGrade;
@@ -29,7 +26,6 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 
 Bureaucrat::~Bureaucrat()
 {
-	std::cout << "bureaucrat " << this->_name << " has passed away..." << std::endl;
 }
 
 const std::string Bureaucrat::getName(void) const

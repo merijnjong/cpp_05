@@ -28,7 +28,7 @@ std::string PresidentialPardonForm::getTarget(void) const
 
 void PresidentialPardonForm::executeForm(void) const
 {
-	std::cout << "Informs that " << getTarget() << " has been pardoned by Zaphod Beeblebroxx" << std::endl;
+	std::cout << "Informs that " << getTarget() << " has been pardoned by Jetten" << std::endl;
 }
 
 PresidentialPardonForm::~PresidentialPardonForm()
